@@ -2,9 +2,10 @@ from datetime import date
 
 from django.db import models
 from modelcluster.models import ParentalKey
-from wagtail.models import Page, Orderable
-from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.fields import RichTextField
+from wagtail.models import Page, Orderable
+from wagtail.snippets.models import register_snippet
 
 
 class BlogIndexPage(Page):
@@ -37,3 +38,15 @@ class BlogPageImageGallery(Orderable):
     )
     caption = models.CharField(max_length=255, blank=True)
     panels = [FieldPanel("image"), FieldPanel("caption")]
+
+
+@register_snippet
+class Author(models.Model):
+    name = models.CharField(max_length=255)
+    author_image = models.ForeignKey(
+        "wagtailimages.Image", related_name="+", on_delete=models.CASCADE
+    )
+    panels = [FieldPanel("name"), FieldPanel("author_image")]
+
+    def __str__(self):
+        return self.name
