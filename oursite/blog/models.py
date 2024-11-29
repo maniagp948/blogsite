@@ -1,7 +1,8 @@
 from datetime import date
 
+from django import forms
 from django.db import models
-from modelcluster.models import ParentalKey
+from modelcluster.models import ParentalKey, ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
@@ -22,9 +23,11 @@ class BlogPostPage(Page):
     date = models.DateField("Post Date", default=date.today)
     intro = RichTextField(blank=True)
     body = RichTextField(blank=True)
+    authors = ParentalManyToManyField("blog.Author", blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
+        FieldPanel("authors", widget=forms.CheckboxSelectMultiple),
         FieldPanel("intro"),
         FieldPanel("body"),
         InlinePanel("image_gallery", label="gallery images"),
