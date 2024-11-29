@@ -2,7 +2,9 @@ from datetime import date
 
 from django import forms
 from django.db import models
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.models import ParentalKey, ParentalManyToManyField
+from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page, Orderable
@@ -19,11 +21,18 @@ class BlogIndexPage(Page):
     ]
 
 
+class BlogPostTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "BlogPostPage", related_name="tagged_items", on_delete=models.CASCADE
+    )
+
+
 class BlogPostPage(Page):
     date = models.DateField("Post Date", default=date.today)
     intro = RichTextField(blank=True)
     body = RichTextField(blank=True)
     authors = ParentalManyToManyField("blog.Author", blank=True)
+    tags = ClusterTaggableManager
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
@@ -31,6 +40,7 @@ class BlogPostPage(Page):
         FieldPanel("intro"),
         FieldPanel("body"),
         InlinePanel("image_gallery", label="gallery images"),
+        FieldPanel("tags"),
     ]
 
 
@@ -53,3 +63,7 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TagIndexPage(Page):
+    pass
