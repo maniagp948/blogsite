@@ -32,7 +32,7 @@ class BlogPostPage(Page):
     intro = RichTextField(blank=True)
     body = RichTextField(blank=True)
     authors = ParentalManyToManyField("blog.Author", blank=True)
-    tags = ClusterTaggableManager
+    tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
