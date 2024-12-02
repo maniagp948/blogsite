@@ -20,6 +20,13 @@ class BlogIndexPage(Page):
         )
     ]
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        blogposts = self.get_children().live().order_by("-first_published_at")  # type: ignore
+        context["blogposts"] = blogposts
+
+        return context
+
 
 class BlogPostTag(TaggedItemBase):
     content_object = ParentalKey(
