@@ -34,4 +34,26 @@
 {% endif %}
 {% endwith %}
 
+{% with images=page.image_gallery.all %}
+    {% if images %}
+    <div class="gallery">
+        {% for image in images %}
+        <div class="gallery-item">
+            {% image image.image fill-340x340 %}
+            <p>{{ image.caption }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+
+{% with tags=page.tags.all %}
+{% if tags %}
+    <div class="tags">
+        {% for tag in tags %}
+            <a href="{% slugurl 'tags' %}?tag{{ tag }}" class="tag-button">{{ tag }}</a>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
 {% endblock content %}
