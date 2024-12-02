@@ -41,6 +41,13 @@ class BlogPostPage(Page):
     authors = ParentalManyToManyField("blog.Author", blank=True)
     tags = ClusterTaggableManager(through=BlogPostTag, blank=True)
 
+    def main_image(self):
+        thumbnail_image = self.image_gallery.first()  # type: ignore
+        if thumbnail_image:
+            return thumbnail_image.image
+        else:
+            return None
+
     content_panels = Page.content_panels + [
         FieldPanel("date"),
         FieldPanel("authors", widget=forms.CheckboxSelectMultiple),

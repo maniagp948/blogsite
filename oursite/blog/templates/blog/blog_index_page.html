@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block extra_css %}
 
@@ -15,6 +15,18 @@
     {% for post in blogposts %}
         <div class="blog-post">
             <a href="{% pageurl post %}">{{ post.title }}</a>
+            <div class="post-info">
+                {% with thumbnail_image=post.specific.main_image %}
+                {% if thumbnail_image %}
+                <div class="thumbnail-image">
+                    {% image thumbnail_image fill-300x200 %}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <div class="post-info">
+                {{ post.specific.intro | richtext }}
+            </div>
         </div>
     {% endfor %}
 </div>
