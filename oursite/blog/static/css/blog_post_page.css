@@ -36,3 +36,25 @@ form {
     flex-wrap: wrap;
     gap: 15px;
 }
+
+.tags {
+    margin: 5px;
+    margin-top: 15px;
+}
+
+.tag-button {
+    background-color: rgb(122, 122, 197);
+    padding: 5px;
+    color: white;
+    border-radius: 5px;
+}
+
+.tag-button:hover {
+    background-color: rgb(109, 109, 202);
+    text-decoration: none;
+}
+
+.return {
+    padding: 5px;
+    font-weight: 700;
+}
